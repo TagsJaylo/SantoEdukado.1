@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Calendar with Multiple Events</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; }
+        .calendar-container { width: 300px; margin: auto; }
+        .calendar-header { display: flex; justify-content: space-between; padding: 10px; font-weight: bold; }
+        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; }
+        .day, .weekday { padding: 10px; border: 1px solid #ddd; cursor: pointer; }
+        .weekday { background: #007bff; color: white; font-weight: bold; }
+        .popup { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+                 background: white; padding: 20px; border: 1px solid #ddd; box-shadow: 0 0 10px rgba(0,0,0,0.3); }
+        .event-item { margin-bottom: 10px; cursor: pointer; }
+  a {
+            background-color: #2e7d32;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 10px 0;
+            transition: background 0.3s, transform 0.3s;
+    </style>
+</head>
+<body>
+
+    <div class="calendar-container">
+        <div class="calendar-header">
+            <button onclick="changeMonth(-1)"><</button>
+            <span id="month-year"></span>
+            <button onclick="changeMonth(1)">></button>
+        </div>
+        <div class="calendar-grid" id="calendar"></div>
+    </div>
+
+    <div class="popup" id="popup">
+        <p id="popup-text"></p>
+        <input type="text" id="event-input" placeholder="Enter event">
+        <input type="text" id="event-link" placeholder="Enter event link (optional)">
+        <button onclick="saveEvent()">Add Event</button>
+        <button onclick="removeAllEvents()">Remove All Events</button>
+        <button onclick="popup.style.display='none'">Close</button>
+
+        <div id="event-list"></div>
+    </div>
+
+    <script>
+        let month = new Date().getMonth(), year = new Date().getFullYear();
+        let events = {}; 
+        let selectedDate = "";
+
+        function generateCalendar() {
+            let days = new Date(year, month + 1, 0).getDate();
+            let startDay = new Date(year, month, 1).getDay();
+            document.getElementById("month-year").innerText = new Date(year, month).toLocaleString('default', { month: 'long', year: 'numeric' });
+
+            let calendarHTML = '<div class="weekday">Sun</div><div class="weekday">Mon</div><div class="weekday">Tue</div><div class="weekday">Wed</div><div class="weekday">Thu</div><div class="weekday">Fri</div><div class="weekday">Sat</div>';
+            calendarHTML += "<div></div>".repeat(startDay);
+
+            for (let day = 1; day <= days; day++) {
+                let dateKey = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                let eventText = events[dateKey] ? ` (${events[dateKey].length} events)` : "";
+                calendarHTML += `<div class="day" onclick="openPopup('${dateKey}')">${day}${eventText}</div>`;
+            }
+
+            document.getElementById("calendar").innerHTML = calendarHTML;
+        }
+
+        function changeMonth(dir) {
+            month += dir;
+            if (month < 0) { month = 11; year--; }
+            if (month > 11) { month = 0; year++; }
+            generateCalendar();
+        }
+
+        function openPopup(date) {
+            selectedDate = date;
+            let eventList = events[date] || [];
+            document.getElementById("popup-text").innerText = `Events for ${date}`;
+
+            // Clear previous event list
+            let eventListContainer = document.getElementById("event-list");
+            eventListContainer.innerHTML = '';
+
+            // Display all events for the selected date
+            eventList.forEach((event, index) => {
+                let eventItem = document.createElement('div');
+                eventItem.classList.add('event-item');
+                eventItem.innerHTML = `${event.text}`;
+                if (event.link) {
+                    eventItem.innerHTML += ` <a href="${event.link}" target="_blank">Link</a>`;
+                }
+                eventItem.onclick = () => removeEvent(index);
+                eventListContainer.appendChild(eventItem);
+            });
+
+            // Show the popup
+            document.getElementById("popup").style.display = "block";
+        }
+
+        function saveEvent() {
+            let eventText = document.getElementById("event-input").value;
+            let eventLink = document.getElementById("event-link").value;
+            if (!eventText) return; // Don't save empty events
+
+            // Add the event to the selected date
+            if (!events[selectedDate]) events[selectedDate] = [];
+            events[selectedDate].push({ text: eventText, link: eventLink });
+            generateCalendar();
+            document.getElementById("popup").style.display = "none";
+        }
+
+        function removeEvent(index) {
+            events[selectedDate].splice(index, 1);  // Remove the event at the specified index
+            if (events[selectedDate].length === 0) delete events[selectedDate]; // Remove the date if no events left
+            generateCalendar();
+            openPopup(selectedDate); // Refresh the event list
+        }
+
+        function removeAllEvents() {
+            delete events[selectedDate]; // Remove all events for the selected date
+            generateCalendar();
+            document.getElementById("popup").style.display = "none";
+        }
+
+        generateCalendar();
+    </script>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<a href="AWebPage.html">Back</a>
+
+</body>
+</html>

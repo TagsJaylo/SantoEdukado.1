@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>School Paper</title>
+    <style>
+        /* General Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background: url('SDIHS.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #333;
+        }
+        .blur-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            backdrop-filter: blur(12px);
+            background: rgba(0, 0, 0, 0.3);
+            z-index: -1;
+        }
+
+        /* Header */
+        header {
+            background: rgba(46, 125, 50, 0.85);
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+            font-size: 1.5rem;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Menu Button */
+        .menu-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background-color: #2e7d32;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            z-index: 1000;
+            transition: background 0.3s;
+        }
+        .menu-btn:hover {
+            background-color: #388e3c;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -250px;
+            width: 250px;
+            height: 100%;
+            background: rgba(46, 125, 50, 0.95);
+            padding-top: 60px;
+            transition: left 0.3s ease;
+            z-index: 999;
+        }
+        .sidebar a {
+            display: block;
+            padding: 15px 20px;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        .sidebar a:hover {
+            background: #66bb6a;
+        }
+        .sidebar.active {
+            left: 0;
+        }
+
+        /* Main Content */
+        .content, .article-detail, .about-us, #home {
+            display: none;
+            padding: 20px;
+            max-width: 900px;
+            margin: 20px auto;
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 15px;
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.4);
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Article Cards */
+        .article {
+            margin: 20px;
+            padding: 15px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 15px;
+            transition: transform 0.4s, box-shadow 0.4s;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+        }
+        .article:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+        }
+        .article img {
+            width: 100%;
+            max-width: 400px;
+            height: auto;
+            border-radius: 15px;
+            transition: transform 0.3s, opacity 0.5s ease-in-out;
+        }
+        .article img:hover {
+            transform: scale(1.02);
+        }
+        h3 {
+            color: #2e7d32;
+            margin: 15px 0;
+        }
+
+        /* Back Button */
+        .back-button {
+            background-color: #2e7d32;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 10px 0;
+            transition: background 0.3s, transform 0.3s;
+        }
+        a {
+            background-color: #2e7d32;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 10px 0;
+            transition: background 0.3s, transform 0.3s;
+        }
+        .back-button:hover {
+            background-color: #388e3c;
+            transform: scale(1.1);
+        }
+
+        /* Home Section */
+        #home h2 {
+            text-align: center;
+            color: #2e7d32;
+        }
+        .quick-links button {
+            background-color: #388e3c;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 15px;
+            margin: 10px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .quick-links button:hover {
+            background-color: #4caf50;
+        }
+    </style>
+</head>
+<body>
+
+<div class="blur-overlay"></div>
+
+<!-- Menu Button -->
+<button class="menu-btn" onclick="toggleSidebar()">☰ Menu</button>
+
+<!-- Sidebar -->
+<div class="sidebar" id="sidebar">
+    <a href="#" onclick="showHome()">Home</a>
+    <a href="#" onclick="showContent('science')">Science</a>
+    <a href="#" onclick="showContent('technology')">Technology</a>
+    <a href="#" onclick="showAbout()">About Us</a>
+.   <a href="simplecalendartestjaylo.html" onclick="showContent('School Calendar')">School Calendar</a>
+</div>
+
+<header>
+    <h1>Santo Domingo Integrated High School </h1>
+    <p>Explore the Latest in Science & Technology</p>
+</header>
+
+<!-- Home Section -->
+<div id="home" class="content">
+    <h2>Welcome to SantoEdukado All-In-One Explorer!</h2>
+   
+    <div class="quick-links">
+        <button onclick="showContent('science')">Go to Science Articles</button>
+        <button onclick="showContent('technology')">Go to Technology Articles</button>
+        <form action="simplecalendartestjaylo.html">
+        <button on click="showContent('School Calendar'")>Go to School Calendarr</button>
+        </form>
+    </div>
+
+    <h3>Featured Articles:</h3>
+    <div class="article" onclick="openArticle('space-article')">
+        <h3>Ang Mais: Kayamanan ng Kalikasan</h3>
+        <img src="Mais1.jpg" alt="Space Image">
+    </div>
+
+    <div class="article" onclick="openArticle('ai-article')">
+        <h3>Information and Communication Technology (ICT) in Education</h3>
+        <img src="Computer1.jpg" alt="AI Image">
+    </div>
+</div>
+
+<!-- Science Section -->
+<div id="science" class="content">
+    <h2>Science Articles</h2>
+    <div class="article" onclick="openArticle('space-article')">
+        <h3>Ang Mais: Kayamanan ng Kalikasan</h3>
+        <img src="Mais1.jpg" alt="Space Image">
+        <p>Sa modernong panahon, ang mais (Zea mays) ay hindi lamang isang simpleng pagkain sa hapag-kainan; ito ay itinuturing na mahalagang yaman na nagbibigay-daan sa pag-unlad ng agham at teknolohiya. Ang masustansyang pananim na ito ay nagdadala ng maraming benepisyo sa larangan ng nutrisyon, agrikultura, industriya, at medisina—mga aspeto ng buhay na mahalaga para sa mas maunlad na kinabukasan.
+<br>
+<br>
+
+
+Ang mais ay isa sa pinakamatibay na pananim sa mundo, na kayang umangkop sa iba't ibang uri ng klima. Dahil dito, ito ay mahalagang pagkain at pinagkukunan ng kabuhayan ng maraming magsasaka. Sa tulong ng makabagong teknolohiya, nalikha ang mga genetically modified (GM) corn varieties na mas lumalaban sa peste, sakit, at tagtuyot. Ang mga bagong uri ng mais na ito ay nagbibigay-daan sa mas mataas na ani at mas mababang gastos sa produksyon, na nagdudulot ng mas matibay na seguridad sa pagkain.
+<br>
+<br>
+
+Hindi natatapos sa pagkain ang kahalagahan ng mais. Ang starch na nagmumula rito ay ginagamit bilang pangunahing materyal sa paggawa ng bioplastics, isang uri ng plastik na nabubulok at hindi nakakasama sa kalikasan. Sa panahon ng pandaigdigang krisis sa basura, ang mais ay nagiging pangunahing sangkap sa solusyon para mabawasan ang polusyon sa mundo.
+Bukod dito, ang bioethanol mula sa mais ay ginagamit bilang alternatibong gasolina. Ang renewable energy source na ito ay may mas mababang carbon emissions, na mahalaga upang labanan ang pagbabago ng klima.
+<br>
+<br>
+
+Sa larangan ng medisina, ang cornstarch ay ginagamit bilang sangkap sa paggawa ng mga kapsula, tablet, at iba pang gamot. Ginagamit din ang mais sa biotechnology upang pag-aralan ang potensyal nitong makatulong sa paggamot ng mga sakit. Ang pananaliksik na ito ay naglalayong gawing mas abot-kaya at mas mahusay ang serbisyong pangkalusugan.
+<br>
+<br>
+
+Ang kagandahan ng mais ay hindi lamang nakaugat sa kasalukuyan. Sa patuloy na pagsulong ng agham, inaasahan na higit pang mapapalawak ang gamit ng mais sa iba’t ibang larangan. Mula sa pagiging pangunahing pagkain hanggang sa pagiging kasangkapan sa teknolohiya at medisina, ang mais ay patuloy na magsisilbing inspirasyon at solusyon para sa mas magandang kinabukasan.
+Sa bawat butil ng mais ay nakatago ang potensyal na baguhin ang mundo. Isang simpleng pananim na nagdadala ng napakalaking kontribusyon sa agham, teknolohiya, at kalikasan—iyan ang kagandahan ng mais.</p>
+    </div>
+</div>
+
+<!-- Technology Section -->
+<div id="technology" class="content">
+    <h2>Technology Articles</h2>
+    <div class="article" onclick="openArticle('ai-article')">
+        <h3>Information and Communication Technology (ICT) in Education</h3>
+        <img src="Computer1.jpg" alt="AI Image">
+       <p>Schools use a diverse set of ICT tools to communicate, create, disseminate, store, and manage information. In some contexts, ICT has also become integral to the teaching-learning interaction, through such approaches as replacing chalkboards with interactive digital whiteboards, using student's own smartphones or other devices for learning during class time, and the "flipped classroom" model where students watch lectures at home on the computer and use classroom time for more interactive exercises.
+<br>
+<br>
+
+ICT can provide diverse options for taking in and processing information, making sense of ideas, and expressing learning. Over 87% of students learn best through visual and tactile modalities, and ICT can help these students 'experience' the information instead of just reading and hearing it.Mobile devices can also offer programmes "apps" that provide extra support to students with special needs, with features such as simplified screens and instructions, consistent placement of menus and control features, graphics combined with text, audio feedback, ability to set pace and level of difficulty, appropriate and unambiguous feedback, and easy error correction.
+<br>
+<br>
+
+Computer technologies and other aspects of digital culture have changed the ways people live, work, play, and learn, impacting the construction and distribution of knowledge and power around the world. Graduates who are less familiar with digital culture are increasingly at a disadvantage in the national and global economy. Digital literacy the skills of searching for, discerning, and producing information, as well as the critical use of new media for full participation in society has thus become an important consideration for curriculum frameworks </p>
+    </div>
+</div>
+
+<!-- About Us Section -->
+<div id="about-us" class="about-us">
+    <button class="back-button" onclick="goBack()">← Back</button>
+    <h2>About Us</h2>
+    <html>
+
+<h1 style="text-align:center;"><b>MORE INFORMATION ABOUT US</b></h1>
+<br>
+
+</br>
+<h3 style="text-align:center;">Santo Domingo Integrated High School<br>10 - Sierra Madre</h3>
+
+<br>
+<br>
+<br>
+
+<body>
+Project Proponents
+
+<br></br>
+<b>Name   :</b> <i>Tagaytayan, Lawrenz Jhay L.</i>
+<br><b>FB Acc :</b> <i>Lawrenz Tagaytayan</i>
+<br><b>IG Acc :</b> 
+<br><b>Email  :</b> <i>lawrenzjhaytagaytayan@gmail.com<i>
+<br></br>
+<b>Name   :</b> <i>Patindol, Princess Saijel O.</i>
+<br><b>FB Acc :</b> <i>Princess Saijel Patindol</i>
+<br><b>IG Acc :</b> 
+<br><b>Email  :</b> <i>saijelpatindol@gmail.com</i>
+<br></br>
+<b>Name   :</b> <i>Ramos, Liezel Anne T.</i>
+<br><b>FB Acc :</b> <i>Liezel Anne Ramos</i>
+<br><b>IG Acc :</b> 
+<br><b>Email  :</b> <i>liezelanneramos@gmail.com</i>
+<br></br>
+<b>Name   :</b> <i>Barraquio, Mark Lester P.</i>
+<br><b>FB Acc :</b> <i>Mark Lester Perez Barraquio</i>
+<br><b>IG Acc :</b> 
+<br><b>Email  :</b> <i>marklesterbarraquio@gmail.com</i>
+<br></br>
+<b>Name   :</b> <i>Nakamura, Kazuki Shaina B.</i>
+<br><b>FB Acc :</b> <i>Kazuki Shaina Nakamura</i>
+<br><b>IG Acc :</b> 
+<br><b>Email  :</b> <i>kazukishainanakamura@gmail.com</i>
+</div>
+
+<!-- Article with Slideshow -->
+<div id="space-article" class="article-detail">
+    <button class="back-button" onclick="goBack()">← Back</button>
+    <h2>Ang Mais: Kayamanan ng Kalikasan</h2>
+   
+    <p>Ano nga ba ang kahalagahan ng mais sa kalikasan?</p>
+</div>
+
+<div id="ai-article" class="article-detail">
+    <button class="back-button" onclick="goBack()">← Back</button>
+    <h2>Information and Communication Technology (ICT) in Education</h2>
+<p>Explore the Latest in Science & Technology</p>
+  
+</div>
+
+<script>
+    let lastSection = '';
+
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('active');
+    }
+
+    function showContent(sectionId) {
+        lastSection = sectionId;
+        document.querySelectorAll('.content, .article-detail, .about-us').forEach(el => el.style.display = 'none');
+        document.getElementById(sectionId).style.display = 'block';
+        toggleSidebar();
+    }
+
+    function openArticle(articleId) {
+        document.querySelectorAll('.content, .article-detail, .about-us').forEach(el => el.style.display = 'none');
+        document.getElementById(articleId).style.display = 'block';
+    }
+
+    function goBack() {
+        document.querySelectorAll('.content, .article-detail, .about-us').forEach(el => el.style.display = 'none');
+        if (lastSection) {
+            document.getElementById(lastSection).style.display = 'block';
+        }
+    }
+
+    function showHome() {
+        document.querySelectorAll('.content, .article-detail, .about-us').forEach(el => el.style.display = 'none');
+        document.getElementById('home').style.display = 'block';
+        toggleSidebar();
+    }
+
+    function showAbout() {
+        document.querySelectorAll('.content, .article-detail, .about-us').forEach(el => el.style.display = 'none');
+        document.getElementById('about-us').style.display = 'block';
+        toggleSidebar();
+    }
+
+    // Display Home on Page Load
+    window.onload = function() {
+        showHome();
+    };
+</script>
+
+</body>
+</html> 
